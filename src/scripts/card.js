@@ -1,7 +1,7 @@
 import { openPopup } from "./modal";
 
 // create card method
-export function createCard(card, deleteCardMethod, cardTemplate, imagePopup) {
+export function createCard(card, deleteCardMethod, cardTemplate, openImagePopupCallback, cardLikeCallback) {
     const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
     const cardElementImage = cardElement.querySelector('.card__image');
     
@@ -15,17 +15,11 @@ export function createCard(card, deleteCardMethod, cardTemplate, imagePopup) {
             !evt.target.classList.contains("card__delete-button") &&
             !evt.target.classList.contains("card__like-button")
         ) {
-            const imagePopupElement = imagePopup.querySelector('.popup__image');
-            imagePopupElement.src = card.link;
-            imagePopupElement.alt = card.name;
-
-            imagePopup.querySelector('.popup__caption').textContent = card.name;
-
-            openPopup(imagePopup);
+            openImagePopupCallback(card);
         } // don't open popup if press on delete or like card button
     });
 
-    cardElement.querySelector('.card__like-button').addEventListener('click', handleCardLike);
+    cardElement.querySelector('.card__like-button').addEventListener('click', cardLikeCallback);
 
     return cardElement;
 }
@@ -36,8 +30,6 @@ export function deleteCard(card) {
     card.remove();
 }
 
-function handleCardLike(evt) {
-    if(evt.target.classList.contains('card__like-button_is-active'))
-        evt.target.classList.remove('card__like-button_is-active');
-    else evt.target.classList.add('card__like-button_is-active');
+export function handleCardLike(evt) {
+    evt.target.classList.toggle('card__like-button_is-active');
 }

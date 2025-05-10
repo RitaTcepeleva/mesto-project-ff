@@ -1,5 +1,5 @@
 import { initialCards } from './cards';
-import { createCard, deleteCard } from './card';
+import { createCard, deleteCard, handleCardLike } from './card';
 import { openPopup, closePopup, addCloseEventListeners } from './modal';
 import '../pages/index.css';
 
@@ -28,7 +28,7 @@ const profileDesc = document.querySelector('.profile__description');
 
 // show all of existed cards on the page
 initialCards.forEach(card => {
-    cardsList.append(createCard(card, deleteCard, cardTemplate, imagePopup));
+    cardsList.append(createCard(card, deleteCard, cardTemplate, handleCardOpen, handleCardLike));
 });
 
 // open/close popups
@@ -77,7 +77,17 @@ function handleAddFormSumbit(evt) {
         link: cardUrlInput.value
     };
 
-    cardsList.insertBefore(createCard(card, deleteCard, cardTemplate, imagePopup), cardsList.firstChild);
+    cardsList.insertBefore(createCard(card, deleteCard, cardTemplate, handleCardOpen, handleCardLike), cardsList.firstChild);
 
     closePopup(addPopup);
+}
+
+function handleCardOpen(card) {
+    const imagePopupElement = imagePopup.querySelector('.popup__image');
+    imagePopupElement.src = card.link;
+    imagePopupElement.alt = card.name;
+
+    imagePopup.querySelector('.popup__caption').textContent = card.name;
+
+    openPopup(imagePopup);
 }

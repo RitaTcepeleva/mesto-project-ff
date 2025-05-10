@@ -1,11 +1,11 @@
 export function openPopup(popup) {
     popup.classList.add('popup_is-opened');
-    popup.addEventListener('keydown', handleEscKeyUp);
+    document.addEventListener('keydown', handleEscKeyUp);
 }
 
 export function closePopup(popup) {
     popup.classList.remove('popup_is-opened');
-    popup.removeEventListener('keydown', handleEscKeyUp);
+    document.removeEventListener('keydown', handleEscKeyUp);
 }
 
 export function addCloseEventListeners(popup) {
