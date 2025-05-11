@@ -1,5 +1,3 @@
-import { openPopup } from "./modal";
-
 // create card method
 export function createCard(card, deleteCardMethod, cardTemplate, openImagePopupCallback, cardLikeCallback) {
     const cardElement = cardTemplate.querySelector('.card').cloneNode(true);

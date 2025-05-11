@@ -17,11 +17,11 @@ const addPopup = document.querySelector('.popup_type_new-card');
 
 const imagePopup = document.querySelector('.popup_type_image');
 
-const forms = document.querySelectorAll('.popup__form');
-const nameInput = forms[0].querySelector('.popup__input_type_name');
-const descInput = forms[0].querySelector('.popup__input_type_description');
-const cardNameInput = forms[1].querySelector('.popup__input_type_card-name');
-const cardUrlInput = forms[1].querySelector('.popup__input_type_url');
+const forms = document.forms;
+const nameInput = forms['edit-profile'].name;
+const descInput = forms['edit-profile'].description;
+const cardNameInput = forms['new-place']['place-name'];
+const cardUrlInput = forms['new-place'].link;
 
 const profileTitle = document.querySelector('.profile__title');
 const profileDesc = document.querySelector('.profile__description');
@@ -42,8 +42,7 @@ editButton.addEventListener('click', () => {
 addButton.addEventListener('click', () => {
     openPopup(addPopup)
 
-    cardNameInput.value = '';
-    cardUrlInput.value = '';
+    forms['new-place'].reset();
 });
 
 addCloseEventListeners(editPopup);
@@ -51,8 +50,8 @@ addCloseEventListeners(addPopup);
 addCloseEventListeners(imagePopup);
 
 // save form input values
-forms[0].addEventListener('submit', (evt) => handleEditFormSubmit(evt));
-forms[1].addEventListener('submit', (evt) => handleAddFormSumbit(evt));
+forms[0].addEventListener('submit', handleEditFormSubmit);
+forms[1].addEventListener('submit', handleAddFormSumbit);
 
 // add class for popup animation
 editPopup.classList.add('popup_is-animated');
