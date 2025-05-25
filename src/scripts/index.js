@@ -1,6 +1,7 @@
 import { initialCards } from './cards';
 import { createCard, deleteCard, handleCardLike } from './card';
 import { openPopup, closePopup, addCloseEventListeners } from './modal';
+import { enableValidation, clearValidation } from './validation';
 import '../pages/index.css';
 
 // @todo: Темплейт карточки
@@ -33,14 +34,30 @@ initialCards.forEach(card => {
 
 // open/close popups
 editButton.addEventListener('click', () => {
-    openPopup(editPopup)
+    openPopup(editPopup);
+    clearValidation(forms[0], {
+        formSelector: '.popup__form',
+        inputSelector: '.popup__input',
+        submitButtonSelector: '.popup__button',
+        inactiveButtonClass: 'popup__button_disabled',
+        inputErrorClass: 'popup__input_type_error',
+        errorClass: 'popup__error_visible'
+    });
 
     nameInput.value = profileTitle.textContent;
     descInput.value = profileDesc.textContent;
 });
 
 addButton.addEventListener('click', () => {
-    openPopup(addPopup)
+    openPopup(addPopup);
+    clearValidation(forms[1], {
+        formSelector: '.popup__form',
+        inputSelector: '.popup__input',
+        submitButtonSelector: '.popup__button',
+        inactiveButtonClass: 'popup__button_disabled',
+        inputErrorClass: 'popup__input_type_error',
+        errorClass: 'popup__error_visible'
+    });
 
     forms['new-place'].reset();
 });
@@ -57,6 +74,16 @@ forms[1].addEventListener('submit', handleAddFormSumbit);
 editPopup.classList.add('popup_is-animated');
 addPopup.classList.add('popup_is-animated');
 imagePopup.classList.add('popup_is-animated');
+
+// enable validation
+enableValidation({
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__error_visible'
+})
 
 // handlers for forms
 function handleEditFormSubmit(evt) {
