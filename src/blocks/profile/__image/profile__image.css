@@ -7,6 +7,29 @@
   background-size: cover;
   background-position: center;
   margin: 0 29px 0 0;
+  position: relative;
+}
+
+.profile__image-decor {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  inset: calc(50% - 26px / 2); /* 26px - size of this vestor; place at the center */
+}
+
+.profile__image::after {
+  content: '';
+  display: none;
+  position: absolute;
+  background-color: rgba(0,0,0,0.8);
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.profile__image:hover .profile__image-decor,
+.profile__image:hover::after {
+  display: block;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 740px) {

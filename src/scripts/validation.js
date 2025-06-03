@@ -12,10 +12,10 @@ export function clearValidation(formElement, validationConfig) {
         hideInputError(formElement, inputElement, validationConfig.inputErrorClass, validationConfig.errorClass);
     })
 
-    toggleButtonState(inputList, submitButton, validationConfig.inactiveButtonClass);
+    // toggleButtonState(inputList, submitButton, validationConfig.inactiveButtonClass); // not in all cases works properly (open popup, input correct data, not save and close popup, open popup again => button should be inactive, but it's active)
 
-    // submitButton.disabled = false;
-    // submitButton.classList.remove(validationConfig.inactiveButtonClass);
+    submitButton.disabled = true;
+    submitButton.classList.add(validationConfig.inactiveButtonClass);
 }
 
 const showInputError = (formElement, inputElement, errorMessage, inputErrorClass, errorClass) => {
@@ -67,7 +67,7 @@ function hasInvalidInput(inputList) {
 }
 
 function toggleButtonState(inputList, buttonElement, inactiveButtonClass) {
-    if (hasInvalidInput(inputList)) {
+  if (hasInvalidInput(inputList)) {
     buttonElement.disabled = true;
     buttonElement.classList.add(inactiveButtonClass);
   } else {
