@@ -14,8 +14,7 @@ export function clearValidation(formElement, validationConfig) {
 
     // toggleButtonState(inputList, submitButton, validationConfig.inactiveButtonClass); // not in all cases works properly (open popup, input correct data, not save and close popup, open popup again => button should be inactive, but it's active)
 
-    submitButton.disabled = true;
-    submitButton.classList.add(validationConfig.inactiveButtonClass);
+    disableButton(submitButton, validationConfig.inactiveButtonClass);
 }
 
 const showInputError = (formElement, inputElement, errorMessage, inputErrorClass, errorClass) => {
@@ -30,6 +29,7 @@ const hideInputError = (formElement, inputElement, inputErrorClass, errorClass) 
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
 
   inputElement.classList.remove(inputErrorClass);
+  inputElement.setCustomValidity('');
   errorElement.classList.remove(errorClass);
   errorElement.textContent = '';
 }; 
@@ -67,11 +67,16 @@ function hasInvalidInput(inputList) {
 }
 
 function toggleButtonState(inputList, buttonElement, inactiveButtonClass) {
-  if (hasInvalidInput(inputList)) {
-    buttonElement.disabled = true;
-    buttonElement.classList.add(inactiveButtonClass);
-  } else {
-    buttonElement.disabled = false;
-    buttonElement.classList.remove(inactiveButtonClass);
-  }
+  if (hasInvalidInput(inputList)) disableButton(buttonElement, inactiveButtonClass);
+  else enableButton(buttonElement, inactiveButtonClass);
+}
+
+function disableButton(submitButton, inactiveButtonClass) {
+  submitButton.disabled = true;
+  submitButton.classList.add(inactiveButtonClass);
+}
+
+function enableButton(submitButton, inactiveButtonClass) {
+  submitButton.disabled = false;
+  submitButton.classList.remove(inactiveButtonClass);
 }
