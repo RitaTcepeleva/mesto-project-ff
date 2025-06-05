@@ -51,7 +51,11 @@ const validationConfig = {
     errorClass: 'popup__error_visible'
 };
 
-const submitButtons = Array.from(forms).map(form => form.querySelector(validationConfig.submitButtonSelector));
+const submitButtons = {
+    editProfile: getSumbitButton(forms['edit-profile']),
+    newPlace: getSumbitButton(forms['new-place']),
+    editAvatar: getSumbitButton(forms['edit-avatar'])
+};
 
 Promise.all([getInitialProfileContent(), getInitialCards()])
     .then(([dataProfile, initialCards]) => {
@@ -111,7 +115,7 @@ enableValidation(validationConfig);
 function handleEditFormSubmit(evt) {
     evt.preventDefault();
 
-    savingStatus(submitButtons[0], true);
+    savingStatus(submitButtons.editProfile, true);
     editProfileContent(nameInput.value, descInput.value)
         .then(data => {
             profileTitle.textContent = data.name;
@@ -122,13 +126,13 @@ function handleEditFormSubmit(evt) {
         .catch((err) => {
             console.log('Ошибка ', err);
         })
-        .finally(() => savingStatus(submitButtons[0], false));
+        .finally(() => savingStatus(submitButtons.editProfile, false));
 }
 
 function handleAddFormSumbit(evt) {
     evt.preventDefault();
 
-    savingStatus(submitButtons[1], true);
+    savingStatus(submitButtons.newPlace, true);
     addCard(cardNameInput.value, cardUrlInput.value)
         .then(card => {
             cardsList.insertBefore(createCard(card, deleteCard, cardTemplate, handleCardOpen, handleCardLike, '', removeCard, likeCard, unlikeCard), cardsList.firstChild);
@@ -138,13 +142,13 @@ function handleAddFormSumbit(evt) {
         .catch(err => {
             console.log('Ошибка ', err);
         })
-        .finally(() => savingStatus(submitButtons[1], false));
+        .finally(() => savingStatus(submitButtons.newPlace, false));
 }
 
 function handleEditAvatarFormSubmit(evt) {
     evt.preventDefault();
 
-    savingStatus(submitButtons[2], true);
+    savingStatus(submitButtons.editAvatar, true);
     editAvatar(avatarUrlInput.value)
         .then(data => {
             profileAvatar.style.backgroundImage = `url(${data.avatar})`;
@@ -154,7 +158,7 @@ function handleEditAvatarFormSubmit(evt) {
         .catch(err => {
             console.log('Ошибка ', err);
         })
-        .finally(() => savingStatus(submitButtons[2], false));
+        .finally(() => savingStatus(submitButtons.editAvatar, false));
 }
 
 function handleCardOpen(card) {
@@ -172,4 +176,8 @@ function savingStatus(submitButton, status) {
     } else {
         submitButton.textContent = 'Сохранить'
     }
+}
+
+function getSumbitButton(form) {
+    return form.querySelector(validationConfig.submitButtonSelector);
 }
